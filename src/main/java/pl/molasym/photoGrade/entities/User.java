@@ -1,38 +1,52 @@
 package pl.molasym.photoGrade.entities;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Formula;
 
-
+@Entity
+@Table(name = "USER")
 public class User {
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="USER_ID")
 	private long id;
+
+	@Column(name = "NICKNAME")
 	private String nickName;
+
+	@Column(name = "PASSWORD")
 	private String password;
-	private List<User> friends;
+
+	@ManyToMany(cascade={CascadeType.ALL})
+	@JoinTable(name="USER_COLLEAGUE",
+			joinColumns={@JoinColumn(name="USER_ID")},
+			inverseJoinColumns={@JoinColumn(name="COLLEAGUE_ID")})
+	private Set<User> friends = new HashSet<User>();
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Photo> photos;
-	private Date creationDate;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="CREATED_DATE")
+	private Date createdDate;
+
+	@Column(name = "EMAIL")
+	private String email;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "BIRTH_DATE")
+	private Date birthDate;
+
+	@Column(name = "AGE")
+	@Formula("lower(datediff(curDate(), BIRTH_DATE)/365)")
+	private int age;
+
+	@Column(name = "PHOTOS_QUANTITY")
+	private int photosQuantity;
 	
 
 }
