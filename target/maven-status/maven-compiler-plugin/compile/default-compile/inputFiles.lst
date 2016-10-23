@@ -1,0 +1,8 @@
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/entities/Photo.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/entities/Comment.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/config/WebAppInitializer.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/controller/LoginController.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/entities/User.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/sql/UserInformationSQL.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/config/ApplicationConfig.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/config/HibernateUtil.java

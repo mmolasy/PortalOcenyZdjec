@@ -1,0 +1,8 @@
+pl/molasym/photoGrade/entities/Comment.class
+pl/molasym/photoGrade/entities/Photo.class
+pl/molasym/photoGrade/config/WebAppInitializer.class
+pl/molasym/photoGrade/entities/User.class
+pl/molasym/photoGrade/controller/LoginController.class
+pl/molasym/photoGrade/sql/UserInformationSQL.class
+pl/molasym/photoGrade/config/HibernateUtil.class
+pl/molasym/photoGrade/config/ApplicationConfig.class
