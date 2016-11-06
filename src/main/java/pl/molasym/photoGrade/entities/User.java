@@ -43,10 +43,118 @@ public class User {
 
 	@Column(name = "AGE")
 	@Formula("lower(datediff(curDate(), BIRTH_DATE)/365)")
-	private int age;
+	private Integer age;
 
 	@Column(name = "PHOTOS_QUANTITY")
-	private int photosQuantity;
-	
+	private Integer photosQuantity;
 
+	public User(){}
+
+	public User(String nickName, String password, Set<User> friends, List<Photo> photos, Date createdDate, String email, Date birthDate, int age, int photosQuantity) {
+		this.nickName = nickName;
+		this.password = password;
+		this.friends = friends;
+		this.photos = photos;
+		this.createdDate = createdDate;
+		this.email = email;
+		this.birthDate = birthDate;
+		this.age = age;
+		this.photosQuantity = photosQuantity;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Set<User> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(Set<User> friends) {
+		this.friends = friends;
+	}
+
+	public List<Photo> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<Photo> photos) {
+		this.photos = photos;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public Integer getPhotosQuantity() {
+		return photosQuantity;
+	}
+
+	public void setPhotosQuantity(Integer photosQuantity) {
+		this.photosQuantity = photosQuantity;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", nickName='" + nickName + '\'' +
+				", password='" + password + '\'' +
+				", friends=" + friends +
+				", photos=" + photos +
+				", createdDate=" + createdDate +
+				", email='" + email + '\'' +
+				", birthDate=" + birthDate +
+				", age=" + age +
+				", photosQuantity=" + photosQuantity +
+				'}';
+	}
 }
