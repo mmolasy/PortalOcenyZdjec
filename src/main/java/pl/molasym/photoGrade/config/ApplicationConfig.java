@@ -2,6 +2,7 @@ package pl.molasym.photoGrade.config;
 
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
  
@@ -28,10 +29,12 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         bean.setSuffix(".jsp");
         return bean;
     }
- 
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver getMultipartResolver() {
-//        return new CommonsMultipartResolver();
+
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+//        resolver.setDefaultEncoding("utf-8");
+//        return resolver;
 //    }
  
     @Bean(name = "messageSource")
@@ -41,5 +44,10 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         resource.setDefaultEncoding("UTF-8");
         return resource;
     }
- 
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SessionValidator());
+    }
+
 }
