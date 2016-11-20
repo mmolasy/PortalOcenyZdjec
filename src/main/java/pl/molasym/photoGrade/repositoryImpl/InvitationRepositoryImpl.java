@@ -12,6 +12,7 @@ import pl.molasym.photoGrade.repository.InvitationRepository;
 import pl.molasym.photoGrade.sql.InvitationSQL;
 import pl.molasym.photoGrade.sql.PhotoFilesSQL;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * Created by moliq on 20.11.16.
  */
 @Repository
+@Transactional
 public class InvitationRepositoryImpl implements InvitationRepository {
 
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -32,9 +34,9 @@ public class InvitationRepositoryImpl implements InvitationRepository {
         invitation.setTo(userTo);
         invitation.setStatus("PENDING");
         userTo.getReceivedInvitations().add(invitation);
-        session.update(userFrom);
-        session.update(userTo);
-        session.save(invitation);
+        session.merge(userFrom);
+        session.merge(userTo);
+        //session.save(invitation);
         session.getTransaction().commit();
         session.close();
 

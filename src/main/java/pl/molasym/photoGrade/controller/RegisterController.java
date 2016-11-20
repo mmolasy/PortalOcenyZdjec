@@ -50,13 +50,6 @@ public class RegisterController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-//        if (result.hasErrors())
-//        {
-//            modelAndView.addObject("newUser", newUser);
-//            modelAndView.setViewName("registerFormular");
-//            return modelAndView;
-//        }
-
         System.out.println(newUser);
         User user = new User();
         user.setNickName(newUser.getNickName());

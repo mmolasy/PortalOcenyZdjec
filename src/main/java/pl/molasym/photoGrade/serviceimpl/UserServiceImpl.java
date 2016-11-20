@@ -39,9 +39,10 @@ public class UserServiceImpl implements UserService {
         return userDAO.checkIfUsernameExists(username);
     }
 
-    public User getUserByEmail(String mail)  {
-
+    public User getUserByEmail(String mail) throws UserNotFoundException {
         User user = userDAO.getUserByEmail(mail);
+        if(user == null)
+            throw new UserNotFoundException();
         return user;
     }
     public void registerNewUser(User user) throws UserAlreadyRegistered {
@@ -49,13 +50,12 @@ public class UserServiceImpl implements UserService {
         if(found != null) {
             throw new UserAlreadyRegistered("E-mail already exist on DB");
         }
-        else
-        {
-            userDAO.registerNewUser(user);
-        }
+        userDAO.registerNewUser(user);
     }
-    public boolean areFriends(User userOne, final User userTwo){
-       return userOne.getFriends().stream().anyMatch(x -> x.getUserId().equals(userTwo.getUserId()));
+    public boolean areFriends(User userOne, User userTwo) throws UserNotFoundException {
+        if(userOne == null || userTwo == null)
+            throw new UserNotFoundException();
+        return userOne.getFriends().stream().anyMatch(x -> x.getUserId().equals(userTwo.getUserId()));
     }
 
 

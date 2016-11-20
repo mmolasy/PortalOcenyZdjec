@@ -9,7 +9,7 @@ public class InvitationSQL {
     public static final String getInvitationStatus = "Select i.status from Invitation i where i.id= :invitationId";
     public static final String getInvitationByUsers = "Select i from Invitation i where i.from= :userFrom and i.to= :userTo";
     public static final String getInvitationById = "Select i from Invitation i where i.id= :invitationId";
-    public static final String getInvitationToUser = "Select i from Invitation i where i.to= :user";
+    public static final String getInvitationToUser = "Select i from Invitation i where i.to= :user and i.status = 'PENDING'";
 
 
 }

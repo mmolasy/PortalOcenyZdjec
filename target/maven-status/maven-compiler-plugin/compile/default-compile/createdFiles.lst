@@ -30,5 +30,6 @@ pl/molasym/photoGrade/serviceimpl/InvitationServiceImpl.class
 pl/molasym/photoGrade/controller/ImageReadFile.class
 pl/molasym/photoGrade/exceptions/UserException.class
 pl/molasym/photoGrade/enums/Visibility.class
+pl/molasym/photoGrade/exceptions/PhotoNotFound.class
 pl/molasym/photoGrade/service/InvitationService.class
 pl/molasym/photoGrade/exceptions/InvitationAlreadySent.class

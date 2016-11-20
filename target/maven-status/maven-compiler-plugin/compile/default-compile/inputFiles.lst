@@ -1,4 +1,5 @@
 /home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/service/InvitationService.java
+/home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/exceptions/PhotoNotFound.java
 /home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/controller/ImageReadFile.java
 /home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/exceptions/UserNotFoundException.java
 /home/moliq/workspace/PortalOcenyZdjec/src/main/java/pl/molasym/photoGrade/serviceimpl/PhotoServiceImpl.java
