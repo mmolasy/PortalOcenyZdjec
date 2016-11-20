@@ -10,8 +10,11 @@ import java.util.List;
  */
 public interface InvitationRepository {
     public Invitation createNewInvitation(User userOne, User userTwo);
-    public List<Invitation> getReceivedInvitations(User user);
-    public List<Invitation> getSentInvitations(User user);
     public String getStatusOfInvitation(Long id);
-    public void updateInvitation(Invitation invitation);
+    public void acceptInvitation(Invitation invitation);
+    public Invitation getInvitationByUsers(User userFrom, User userTo);
+    public Invitation getInvitationById(Long id);
+    public List<Invitation> getInvitationToUser(User user);
+
+
 }

@@ -21,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
 
     public User getUserByUserId(long id) throws UserNotFoundException{
+        User user = userDAO.getUserByUserId(id);
+        if(user == null)
+            throw new UserNotFoundException();
         return userDAO.getUserByUserId(id);
     }
 

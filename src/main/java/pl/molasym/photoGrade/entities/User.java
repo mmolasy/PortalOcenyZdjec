@@ -21,7 +21,7 @@ public class User {
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinTable(name="USER_COLLEAGUE",
 			joinColumns={@JoinColumn(name="USER_ID")},
 			inverseJoinColumns={@JoinColumn(name="COLLEAGUE_ID")})
@@ -30,8 +30,9 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Photo> photos;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "from")
-	private List<Invitation> invitations;
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinColumn(name="USER_ID")
+	private List<Invitation> receivedInvitations;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="CREATED_DATE")
@@ -56,7 +57,8 @@ public class User {
 		photos = new ArrayList<Photo>();
 		age = new Integer(0);
 		photosQuantity = new Integer(0);
-		invitations = new ArrayList<Invitation>();
+		receivedInvitations = new ArrayList<Invitation>();
+
 	}
 
 	public Long getUserId() {
@@ -137,6 +139,14 @@ public class User {
 
 	public void setPhotosQuantity(Integer photosQuantity) {
 		this.photosQuantity = photosQuantity;
+	}
+
+	public List<Invitation> getReceivedInvitations() {
+		return receivedInvitations;
+	}
+
+	public void setReceivedInvitations(List<Invitation> receivedInvitations) {
+		this.receivedInvitations = receivedInvitations;
 	}
 
 	public User(String nickName, String password, Set<User> friends, List<Photo> photos, Date createdDate, String email, Date birthDate, Integer age, Integer photosQuantity) {

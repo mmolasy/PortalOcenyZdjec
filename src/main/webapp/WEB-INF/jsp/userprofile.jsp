@@ -15,5 +15,9 @@ Your photos:<br/>
         ${photo.user.nickName}<br/>
         ----------------------- <br/>
 </c:forEach>
+
+<form method="post" action="invite/${user.userId}">
+            <td colspan="2" align="center"><input type="submit" value="Invite to friends" /></td>
+</form>
 </body>
 </html>
