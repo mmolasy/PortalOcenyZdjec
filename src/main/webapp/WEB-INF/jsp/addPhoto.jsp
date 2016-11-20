@@ -7,41 +7,49 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet"	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    <title>Add new Photo</title>
+    <title>Dodaj nowe zdjecie</title>
 </head>
 <body>
 <section>
     <div class="jumbotron">
         <div class="container">
-            <h1>Photo</h1>
-            <p>Add new photo</p>
+            <h1>Zdjecia</h1>
+            <p>Dodaj zdjecie</p>
         </div>
+        <a href="<c:url value="/logout" />" class="btn btn-danger btn-mini pull-right">wyloguj</a>
+
     </div>
 </section>
 <section class="container">
-
     <form method="post" action="addPhoto" enctype="multipart/form-data">
-        <table border="0">
-            <tr>
-                <td>Set file</td>
-                <td><input type="file" name="fileUpload" size="50" accept="image/jpeg, image/gif"/></td>
-            </tr>
-            <tr>
-                <td>Set description</td>
-                <td><input type="text" name="description" size="50" /></td>
-            </tr>
-            <tr>
-                <td>Set visibility</td>
-                <td><input type="radio" name="visibility" value="PUBLIC"> PUBLIC</td>
-                <td><input type="radio" name="visibility" value="PRIVATE"> PRIVATE</td>
-                <td><input type="radio" name="visibility" value="FRIENDS_ONLY"> FRIENDS_ONLY</td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center"><input type="submit" value="Upload" /></td>
-            </tr>
-        </table>
+            <legend>Dodaj nowe zdjecie</legend>
+
+            <div class="form-group">
+                <div class="col-lg-10">
+                    <input type="file" name="fileUpload" size="50" accept="image/jpeg, image/gif" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-10">
+                    Opis zdjecia<br/>
+                    <textarea name="description" rows="3" cols="35" wrap="soft" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-10">
+                    <input type="radio" name="visibility" value="PUBLIC" required> Publiczny
+                    <input type="radio" name="visibility" value="FRIENDS_ONLY" required> Widza Tylko Znajomi
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <input type="submit" id="btnAdd" class="btn btn-primary" value ="Dodaj"/>
+                </div>
+            </div>
     </form>
 </section>
-${error}
 </body>
 </html>

@@ -11,6 +11,7 @@ import pl.molasym.photoGrade.enums.Visibility;
 import pl.molasym.photoGrade.repository.PhotoRepository;
 import pl.molasym.photoGrade.sql.PhotoFilesSQL;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
  */
 
 @Repository
+@Transactional
 public class PhotoRepositoryImpl implements PhotoRepository {
 
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -52,5 +54,14 @@ public class PhotoRepositoryImpl implements PhotoRepository {
         photo = (Photo) query.uniqueResult();
         session.close();
         return photo;
+    }
+    public List<Photo> getAllPhotoFromUser(User user){
+        Session session = sessionFactory.openSession();
+        List<Photo> result = new ArrayList<Photo>();
+        Query query = session.createQuery(PhotoFilesSQL.AllPhotoFromUser);
+        query.setParameter("user", user);
+        result = (List<Photo>) query.list();
+        session.close();
+        return result;
     }
 }

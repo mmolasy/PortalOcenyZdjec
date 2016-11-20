@@ -15,5 +15,7 @@ public interface PhotoRepository {
     public void addPhotoToUser(User user, Photo photo);
     public List<Photo> getPhotoFromUserByVisibility(User user, Visibility visibility);
     public Photo getPhotoById(Long id);
+    public List<Photo> getAllPhotoFromUser(User user);
+
 
 }

@@ -10,11 +10,14 @@ import pl.molasym.photoGrade.exceptions.UserNotFoundException;
 import pl.molasym.photoGrade.repository.UserRepository;
 import pl.molasym.photoGrade.sql.UserInformationSQL;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by moliq on 23.10.16.
  */
 
 @Repository
+@Transactional
 public class UserRepositoryImpl implements UserRepository {
 
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();

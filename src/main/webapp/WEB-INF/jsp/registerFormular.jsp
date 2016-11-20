@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label class="control-label col-lg-2" for="nickName">Nickname</label>
                 <div class="col-lg-10">
-                    <form:input userId="nickName" path="nickName" type="text" class="form:input-large"/>
+                    <form:input userId="nickName" path="nickName" type="text" class="form:input-large" required="required"/>
                 </div>
             </div>
 
@@ -34,7 +34,7 @@
                 <label class="control-label col-lg-2" for="password">Password</label>
                 <div class="col-lg-10">
                     <div class="form:input-prepend">
-                        <form:input userId="password" path="password" type="password" class="form:input-large"/>
+                        <form:input userId="password" path="password" type="password" class="form:input-large" required="required"/>
                     </div>
                 </div>
             </div>
@@ -42,14 +42,14 @@
             <div class="form-group">
                 <label class="control-label col-lg-2" for="email">E-mail</label>
                 <div class="col-lg-10">
-                    <form:input userId="email" path="email" type="email" class="form:input-large"/>
+                    <form:input userId="email" path="email" type="email" class="form:input-large" required="required"/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-lg-2" for="birthDate">Birth Date</label>
                 <div class="col-lg-10">
-                    <form:input userId="birthDate" path="birthDate" type="date" class="form:input-large"/>
+                    <form:input userId="birthDate" path="birthDate" type="date" class="form:input-large" required="required"/>
                 </div>
             </div>
 

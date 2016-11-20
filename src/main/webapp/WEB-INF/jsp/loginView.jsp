@@ -27,7 +27,7 @@
             <div class="form-group">
                 <label class="control-label col-lg-2" for="email">E-mail</label>
                 <div class="col-lg-10">
-                    <form:input userId="email" path="email" type="email" class="form:input-large"/>
+                    <form:input userId="email" path="email" type="email" class="form:input-large" required="required"/>
                 </div>
             </div>
 
@@ -35,7 +35,7 @@
                 <label class="control-label col-lg-2" for="password">Password</label>
                 <div class="col-lg-10">
                     <div class="form:input-prepend">
-                        <form:input userId="password" path="password" type="password" class="form:input-large"/>
+                        <form:input userId="password" path="password" type="password" class="form:input-large" required="required"/>
                     </div>
                 </div>
             </div>

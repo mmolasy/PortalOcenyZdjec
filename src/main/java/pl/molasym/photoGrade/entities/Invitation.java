@@ -58,8 +58,8 @@ public class Invitation {
     public String toString() {
         return "Invitation{" +
                 "id=" + id +
-                ", from=" + from +
-                ", to=" + to +
+                ", from=" + from.getUserId() +
+                ", to=" + to.getUserId() +
                 ", status='" + status + '\'' +
                 '}';
     }

@@ -13,8 +13,8 @@ public interface UserService {
     public User getUserByUserId(long id) throws UserNotFoundException;
     public User validateLoginUser(String email, String password) throws UserWrongCredentials;
     public boolean checkIfUsernameExists(String username);
-    public User getUserByEmail(String mail);
+    public User getUserByEmail(String mail) throws UserNotFoundException;
     public void registerNewUser(User user) throws UserAlreadyRegistered;
-    public boolean areFriends(User userOne, User userTwo);
+    public boolean areFriends(User userOne, User userTwo) throws UserNotFoundException;
 
 }

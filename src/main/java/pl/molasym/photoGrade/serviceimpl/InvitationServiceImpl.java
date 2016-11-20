@@ -39,15 +39,18 @@ public class InvitationServiceImpl implements InvitationService {
         if(userFrom == null || userTo == null)
             throw new UserNotFoundException();
 
+        if(userFrom.getUserId().equals(userTo.getUserId()))
+            throw new ServerException();
+
         if(userService.areFriends(userFrom, userTo))
             throw new UserAlreadyFriends();
+
+        System.out.println(userTo.getReceivedInvitations());
 
         for(Invitation invitation: userTo.getReceivedInvitations()) {
          if(invitation.getFrom().getUserId().equals(userFrom.getUserId()))
             throw new InvitationAlreadySent();
         }
-        System.out.println(userFrom.getReceivedInvitations());
-        System.out.println(userTo.getReceivedInvitations());
 
         for(Invitation invitation: userFrom.getReceivedInvitations())
         if(invitation.getFrom().getUserId().equals(userTo.getUserId())) {

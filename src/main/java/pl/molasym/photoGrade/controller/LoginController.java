@@ -19,18 +19,17 @@ import javax.validation.Valid;
  */
 
 @Controller
-@RequestMapping(value = "/login")
+@RequestMapping
 public class LoginController {
 
     @Autowired
     UserService userServiceImpl;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView showLoginPage(@ModelAttribute(value = "loginDto") @Valid UserLoginDTO loginDto, BindingResult result, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView();
         User user = (User) session.getAttribute("USER");
         if(user == null){
-            System.out.println("Not logged");
             modelAndView.addObject("loginDto", new UserLoginDTO());
             modelAndView.setViewName("loginView");
         }
@@ -40,13 +39,12 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView doLogin(HttpSession session, @ModelAttribute(value = "loginDto") @Valid UserLoginDTO loginDto, BindingResult result){
 
         ModelAndView modelAndView = new ModelAndView();
 
         if(result.hasErrors()){
-            System.out.println(result.getAllErrors());
             modelAndView.addObject("error","error");
             modelAndView.addObject("loginDto", loginDto);
             modelAndView.setViewName("loginView");
@@ -65,7 +63,7 @@ public class LoginController {
         }
 
         session.setAttribute("USER", user);
-        return new ModelAndView("redirect:/users/me");
+        return new ModelAndView("redirect:/users/"+user.getUserId());
 
     }
 
