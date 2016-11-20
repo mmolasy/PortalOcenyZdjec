@@ -2,6 +2,7 @@ package pl.molasym.photoGrade.serviceimpl;
 
 import org.eclipse.jetty.server.Server;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pl.molasym.photoGrade.entities.Invitation;
 import pl.molasym.photoGrade.entities.User;
 import pl.molasym.photoGrade.exceptions.*;
@@ -10,9 +11,13 @@ import pl.molasym.photoGrade.repository.UserRepository;
 import pl.molasym.photoGrade.service.InvitationService;
 import pl.molasym.photoGrade.service.UserService;
 
+import java.util.List;
+
 /**
  * Created by moliq on 20.11.16.
  */
+
+@Service
 public class InvitationServiceImpl implements InvitationService {
 
     @Autowired
@@ -37,14 +42,19 @@ public class InvitationServiceImpl implements InvitationService {
         if(userService.areFriends(userFrom, userTo))
             throw new UserAlreadyFriends();
 
-        if(userFrom.getReceivedInvitations().stream().anyMatch(x -> x.equals(userTo)))
+        for(Invitation invitation: userTo.getReceivedInvitations()) {
+         if(invitation.getFrom().getUserId().equals(userFrom.getUserId()))
             throw new InvitationAlreadySent();
+        }
+        System.out.println(userFrom.getReceivedInvitations());
+        System.out.println(userTo.getReceivedInvitations());
 
-        if(userFrom.getReceivedInvitations().stream().anyMatch(x -> x.equals(userTo))) {
-            Invitation invitation = invitationRepository.getInvitationByUsers(userFrom, userTo);
-            if(getStatusOfInvitation(invitation.getId()).equals("ACCEPTED"))
+        for(Invitation invitation: userFrom.getReceivedInvitations())
+        if(invitation.getFrom().getUserId().equals(userTo.getUserId())) {
+            Invitation invitationx = invitationRepository.getInvitationByUsers(userTo, userFrom);
+            if(getStatusOfInvitation(invitationx.getId()).equals("ACCEPTED"))
                 throw new InvitationAlreadyAccepted();
-            acceptInvitation(invitation);
+            acceptInvitation(invitationx);
             return;
         }
         invitationRepository.createNewInvitation(userFrom, userTo);
@@ -62,6 +72,12 @@ public class InvitationServiceImpl implements InvitationService {
             throw new InvitationAlreadyAccepted();
 
         invitationRepository.acceptInvitation(invitationFound);
-
     }
+    public Invitation getInvitationById(Long id){
+        return invitationRepository.getInvitationById(id);
+    }
+    public List<Invitation> getInvitationToUser(User user){
+        return invitationRepository.getInvitationToUser(user);
+    }
+
 }

@@ -21,7 +21,7 @@ public class User {
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.EAGER, cascade={CascadeType.ALL})
 	@JoinTable(name="USER_COLLEAGUE",
 			joinColumns={@JoinColumn(name="USER_ID")},
 			inverseJoinColumns={@JoinColumn(name="COLLEAGUE_ID")})
@@ -30,7 +30,8 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Photo> photos;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "to")
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@JoinColumn(name="USER_ID")
 	private List<Invitation> receivedInvitations;
 
 	@Temporal(TemporalType.DATE)

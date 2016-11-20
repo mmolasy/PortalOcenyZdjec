@@ -33,6 +33,10 @@ public class RegisterController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView showRegisterFormular(@ModelAttribute("newUser") User newUser, HttpServletResponse response, HttpSession session){
+        User user = (User) session.getAttribute("USER");
+        if(user != null)
+            session.invalidate();
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("newUser", new User());
         modelAndView.setViewName("registerFormular");

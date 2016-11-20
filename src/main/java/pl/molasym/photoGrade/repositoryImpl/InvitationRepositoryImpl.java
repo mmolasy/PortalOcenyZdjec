@@ -65,7 +65,7 @@ public class InvitationRepositoryImpl implements InvitationRepository {
         userTo.getFriends().add(userFrom);
         session.update(userFrom);
         session.update(userTo);
-        session.save(invitation);
+        session.update(invitation);
         session.getTransaction().commit();
         session.close();
     }
@@ -88,6 +88,16 @@ public class InvitationRepositoryImpl implements InvitationRepository {
         session.close();
         return invitation;
     }
+    public List<Invitation> getInvitationToUser(User user){
+        Session session = sessionFactory.openSession();
+        List<Invitation> result = new ArrayList<Invitation>();
+        Query query = session.createQuery(InvitationSQL.getInvitationToUser);
+        query.setParameter("user", user);
+        result = (List<Invitation>) query.list();
+        session.close();
+        return result;
+    }
+
 
 
 

@@ -14,5 +14,7 @@ public interface InvitationRepository {
     public void acceptInvitation(Invitation invitation);
     public Invitation getInvitationByUsers(User userFrom, User userTo);
     public Invitation getInvitationById(Long id);
+    public List<Invitation> getInvitationToUser(User user);
+
 
 }

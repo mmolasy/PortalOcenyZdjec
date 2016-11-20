@@ -13,10 +13,10 @@ public class Invitation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name="FROM")
+    @ManyToOne()
     private User from;
 
-    @Column(name="TO")
+    @ManyToOne()
     private User to;
 
     @Column(name = "STATUS")
@@ -52,6 +52,16 @@ public class Invitation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Invitation{" +
+                "id=" + id +
+                ", from=" + from +
+                ", to=" + to +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
 
