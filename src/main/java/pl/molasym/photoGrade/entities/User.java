@@ -13,7 +13,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="USER_ID")
-	private long id;
+	private Long userId;
 
 	@Column(name = "NICKNAME")
 	private String nickName;
@@ -29,6 +29,9 @@ public class User {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Photo> photos;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "from")
+	private List<Invitation> invitations;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="CREATED_DATE")
@@ -48,26 +51,20 @@ public class User {
 	@Column(name = "PHOTOS_QUANTITY")
 	private Integer photosQuantity;
 
-	public User(){}
-
-	public User(String nickName, String password, Set<User> friends, List<Photo> photos, Date createdDate, String email, Date birthDate, int age, int photosQuantity) {
-		this.nickName = nickName;
-		this.password = password;
-		this.friends = friends;
-		this.photos = photos;
-		this.createdDate = createdDate;
-		this.email = email;
-		this.birthDate = birthDate;
-		this.age = age;
-		this.photosQuantity = photosQuantity;
+	public User(){
+		friends = new HashSet<User>();
+		photos = new ArrayList<Photo>();
+		age = new Integer(0);
+		photosQuantity = new Integer(0);
+		invitations = new ArrayList<Invitation>();
 	}
 
-	public long getId() {
-		return id;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getNickName() {
@@ -142,10 +139,22 @@ public class User {
 		this.photosQuantity = photosQuantity;
 	}
 
+	public User(String nickName, String password, Set<User> friends, List<Photo> photos, Date createdDate, String email, Date birthDate, Integer age, Integer photosQuantity) {
+		this.nickName = nickName;
+		this.password = password;
+		this.friends = friends;
+		this.photos = photos;
+		this.createdDate = createdDate;
+		this.email = email;
+		this.birthDate = birthDate;
+		this.age = age;
+		this.photosQuantity = photosQuantity;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
-				"id=" + id +
+				"userId=" + userId +
 				", nickName='" + nickName + '\'' +
 				", password='" + password + '\'' +
 				", friends=" + friends +

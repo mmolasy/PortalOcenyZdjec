@@ -63,7 +63,6 @@ public class UserRepositoryImpl implements UserRepository {
         session.close();
     }
 
-
     public boolean checkIfUsernameExists(String username){
         return false;
     }

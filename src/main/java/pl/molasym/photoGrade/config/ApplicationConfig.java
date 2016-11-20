@@ -30,12 +30,12 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         return bean;
     }
 
-//    @Bean
-//    public CommonsMultipartResolver multipartResolver() {
-//        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
-//        resolver.setDefaultEncoding("utf-8");
-//        return resolver;
-//    }
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("utf-8");
+        return resolver;
+    }
  
     @Bean(name = "messageSource")
     public ReloadableResourceBundleMessageSource getMessageSource() {
@@ -45,9 +45,9 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
         return resource;
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SessionValidator());
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new SessionValidator());
+//    }
 
 }

@@ -14,7 +14,7 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "COMMENT_ID")
-    private long id;
+    private Long commentId;
 
     @OneToOne(cascade = CascadeType.ALL)
     private User user;
@@ -29,4 +29,12 @@ public class Comment {
     @Temporal(TemporalType.DATE)
     @Column(name = "CREATED_DATE")
     private Date createdDate;
+
+    public Long getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
 }

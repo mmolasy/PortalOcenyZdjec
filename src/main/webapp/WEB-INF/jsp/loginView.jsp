@@ -27,7 +27,7 @@
             <div class="form-group">
                 <label class="control-label col-lg-2" for="email">E-mail</label>
                 <div class="col-lg-10">
-                    <form:input id="email" path="email" type="email" class="form:input-large"/>
+                    <form:input userId="email" path="email" type="email" class="form:input-large"/>
                 </div>
             </div>
 
@@ -35,14 +35,14 @@
                 <label class="control-label col-lg-2" for="password">Password</label>
                 <div class="col-lg-10">
                     <div class="form:input-prepend">
-                        <form:input id="password" path="password" type="password" class="form:input-large"/>
+                        <form:input userId="password" path="password" type="password" class="form:input-large"/>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-lg-offset-2 col-lg-10">
-                    <input type="submit" id="btnLogin" class="btn btn-primary" value ="Log in!"/>
+                    <input type="submit" userId="btnLogin" class="btn btn-primary" value ="Log in!"/>
                 </div>
             </div>
 

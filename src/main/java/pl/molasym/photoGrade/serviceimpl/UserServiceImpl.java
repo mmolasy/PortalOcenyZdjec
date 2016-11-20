@@ -51,6 +51,10 @@ public class UserServiceImpl implements UserService {
             userDAO.registerNewUser(user);
         }
     }
+    public boolean areFriends(User userOne, final User userTwo){
+       return userOne.getFriends().stream().anyMatch(x -> x.getUserId().equals(userTwo.getUserId()));
+    }
+
 
 
 }

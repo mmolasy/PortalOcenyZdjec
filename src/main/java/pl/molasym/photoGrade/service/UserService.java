@@ -15,4 +15,6 @@ public interface UserService {
     public boolean checkIfUsernameExists(String username);
     public User getUserByEmail(String mail);
     public void registerNewUser(User user) throws UserAlreadyRegistered;
+    public boolean areFriends(User userOne, User userTwo);
+
 }

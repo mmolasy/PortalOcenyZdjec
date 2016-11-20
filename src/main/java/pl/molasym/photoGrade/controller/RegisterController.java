@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * Created by moliq on 23.10.16.
@@ -41,7 +42,7 @@ public class RegisterController {
 
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ModelAndView sentRegisterFormular(@ModelAttribute("newUUser") @Valid User newUser, BindingResult result, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UserException {
+    public ModelAndView sentRegisterFormular(@ModelAttribute("newUser") @Valid User newUser, BindingResult result, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UserException {
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -58,6 +59,8 @@ public class RegisterController {
         user.setPassword(newUser.getPassword());
         user.setBirthDate(newUser.getBirthDate());
         user.setEmail(newUser.getEmail());
+        user.setCreatedDate(new Date());
+
 
         try {
             userService.registerNewUser(user);
@@ -72,7 +75,7 @@ public class RegisterController {
         response.setStatus(HttpServletResponse.SC_CREATED);
         modelAndView.addObject("event", "Account has been created. Please log in");
         modelAndView.addObject("loginDto", new UserLoginDTO());
-        modelAndView.setViewName("loginView");
+        modelAndView.setViewName("redirect:/login");
         return modelAndView;
 
     }
