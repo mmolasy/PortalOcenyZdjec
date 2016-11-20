@@ -89,6 +89,16 @@ public class UserPanelController {
 
     }
 
+    @RequestMapping(value = "/invite", method = RequestMethod.POST)
+    public ModelAndView inviteToFriends() {
+        return null;
+    }
+
+    @RequestMapping(value = "/acceptInvitation", method = RequestMethod.POST)
+    public ModelAndView acceptInvitation() {
+        return null;
+    }
+
     @RequestMapping(value = "/allPhotos", method = RequestMethod.GET)
     public ModelAndView showAllPublicPhotos() {
         return null;
@@ -111,11 +121,6 @@ public class UserPanelController {
 
     @RequestMapping(value = "/{id}/photos/{photoId}", method = RequestMethod.GET)
     public ModelAndView showPhotoByIdAndUserId(){
-        return null;
-    }
-
-    @RequestMapping(value = "/{id}/photos", method = RequestMethod.POST)
-    public ModelAndView addNewPhoto(){
         return null;
     }
 

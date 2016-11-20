@@ -20,15 +20,13 @@ public class UserRepositoryImpl implements UserRepository {
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
 
-    public User getUserByUserId(long id) throws UserNotFoundException {
+    public User getUserByUserId(long id) {
         Session session = sessionFactory.openSession();
         User user=null;
         session.getTransaction().begin();
         Query query = session.createQuery(UserInformationSQL.GET_USER_BY_ID);
         query.setParameter("id", id);
         user = (User) query.uniqueResult();
-        if (user == null)
-            throw new UserNotFoundException();
         session.close();
 
         return user;

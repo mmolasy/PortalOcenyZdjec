@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface UserRepository {
 
-    public User getUserByUserId(long id) throws UserNotFoundException;
+    public User getUserByUserId(long id);
     public User validateLoginUser(String email, String password);
     public boolean checkIfUsernameExists(String username);
     public User getUserByEmail(String mail);
