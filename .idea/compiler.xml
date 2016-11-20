@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="PortalOcenyZdjec" />
         <module name="UsersInformation" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="PortalOcenyZdjec" target="1.8" />
       <module name="UsersInformation" target="1.5" />
     </bytecodeTargetLevel>
   </component>
