@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import pl.molasym.photoGrade.entities.Comment;
+import pl.molasym.photoGrade.entities.Grade;
 import pl.molasym.photoGrade.entities.Invitation;
 import pl.molasym.photoGrade.entities.Photo;
 import pl.molasym.photoGrade.entities.User;
@@ -21,8 +21,7 @@ public class HibernateUtil {
 			configuration.addAnnotatedClass(User.class);
 			configuration.addAnnotatedClass(Invitation.class);
 			configuration.addAnnotatedClass(Photo.class);
-			configuration.addAnnotatedClass(Comment.class);
-
+			configuration.addAnnotatedClass(Grade.class);
 			return configuration.buildSessionFactory(new StandardServiceRegistryBuilder().build());
 
 		} catch (Exception e) {

@@ -167,13 +167,33 @@ public class User {
 				"userId=" + userId +
 				", nickName='" + nickName + '\'' +
 				", password='" + password + '\'' +
-				", friends=" + friends +
-				", photos=" + photos +
 				", createdDate=" + createdDate +
 				", email='" + email + '\'' +
 				", birthDate=" + birthDate +
 				", age=" + age +
 				", photosQuantity=" + photosQuantity +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		User user = (User) o;
+
+		if (userId != null ? !userId.equals(user.userId) : user.userId != null) return false;
+		if (nickName != null ? !nickName.equals(user.nickName) : user.nickName != null) return false;
+		if (password != null ? !password.equals(user.password) : user.password != null) return false;
+		if (friends != null ? !friends.equals(user.friends) : user.friends != null) return false;
+		if (photos != null ? !photos.equals(user.photos) : user.photos != null) return false;
+		if (receivedInvitations != null ? !receivedInvitations.equals(user.receivedInvitations) : user.receivedInvitations != null)
+			return false;
+		if (createdDate != null ? !createdDate.equals(user.createdDate) : user.createdDate != null) return false;
+		if (email != null ? !email.equals(user.email) : user.email != null) return false;
+		if (birthDate != null ? !birthDate.equals(user.birthDate) : user.birthDate != null) return false;
+		if (age != null ? !age.equals(user.age) : user.age != null) return false;
+		return photosQuantity != null ? photosQuantity.equals(user.photosQuantity) : user.photosQuantity == null;
+
 	}
 }

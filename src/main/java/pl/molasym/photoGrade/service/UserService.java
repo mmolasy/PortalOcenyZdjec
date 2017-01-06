@@ -16,5 +16,4 @@ public interface UserService {
     public User getUserByEmail(String mail) throws UserNotFoundException;
     public void registerNewUser(User user) throws UserAlreadyRegistered;
     public boolean areFriends(User userOne, User userTwo) throws UserNotFoundException;
-
 }

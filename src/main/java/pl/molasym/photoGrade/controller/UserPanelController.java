@@ -1,29 +1,26 @@
 package pl.molasym.photoGrade.controller;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import pl.molasym.photoGrade.entities.Grade;
 import pl.molasym.photoGrade.entities.Invitation;
 import pl.molasym.photoGrade.entities.Photo;
 import pl.molasym.photoGrade.entities.User;
 import pl.molasym.photoGrade.enums.Visibility;
 import pl.molasym.photoGrade.exceptions.*;
-import pl.molasym.photoGrade.repository.PhotoRepository;
-import pl.molasym.photoGrade.repository.UserRepository;
 import pl.molasym.photoGrade.service.InvitationService;
 import pl.molasym.photoGrade.service.PhotoService;
 import pl.molasym.photoGrade.service.UserService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by moliq on 23.10.16.
@@ -198,13 +195,8 @@ public class UserPanelController {
 
     }
 
-    @RequestMapping(value = "/allPhotos", method = RequestMethod.GET)
-    public ModelAndView showAllPublicPhotos() {
-        return null;
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView showUserProfile(@PathVariable Long id, HttpServletResponse response, HttpSession session) {
+    public ModelAndView showUserProfile(@PathVariable Long id, HttpServletResponse response, HttpSession session) throws PhotoNotFound {
         User user = (User) session.getAttribute("USER");
         if(user == null) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -225,6 +217,9 @@ public class UserPanelController {
         List<Photo> photoList;
         try {
             photoList = photoDAO.getAllPhotoFromUser(userById);
+            for(Photo photo: photoList) {
+                    photo.setCurrentUserGrade(photoDAO.getGradeByPhotoAndUser(photo, user));
+            }
         } catch (UserNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return new ModelAndView("redirect:/users");
@@ -245,6 +240,9 @@ public class UserPanelController {
                 List<Photo> photoListNotFriend;
                 try {
                     photoListNotFriend = photoDAO.getPhotoFromUserByVisibility(userById, Visibility.PUBLIC);
+                    for(Photo photo: photoListNotFriend) {
+                        photo.setCurrentUserGrade(photoDAO.getGradeByPhotoAndUser(photo, user));
+                    }
                 } catch (UserNotFoundException e) {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     return new ModelAndView("redirect:/users");
@@ -260,24 +258,65 @@ public class UserPanelController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView showAllUsers() {
-        return null;
+    @Transactional
+    @RequestMapping(value = "/{photoId}/grade/{value}", method = RequestMethod.GET)
+    public ModelAndView addGradeForPhoto(@PathVariable Long photoId, @PathVariable String value, HttpServletResponse response, HttpSession session) throws Exception {
+        User user = (User) session.getAttribute("USER");
+        if(user == null) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return new ModelAndView("redirect:/login");
+        }
+        photoDAO.addPhotoGrade(user, photoId, value );
+        return new ModelAndView("redirect:/users/"+photoDAO.getPhotoById(photoId).getUser().getUserId());
     }
 
-    @RequestMapping(value = "/{id}/photos/{photoId}", method = RequestMethod.GET)
-    public ModelAndView showPhotoByIdAndUserId(){
-        return null;
-    }
-
-    @RequestMapping(value = "/{id}/photos/{photoId}/comments", method = RequestMethod.POST)
-    public ModelAndView addComment(){
-        return null;
+    @RequestMapping(value = "/{photoId}/remove", method = RequestMethod.POST)
+    public ModelAndView addGradeForPhoto(@PathVariable Long photoId, HttpServletResponse response, HttpSession session) throws Exception {
+        User user = (User) session.getAttribute("USER");
+        if(user == null) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return new ModelAndView("redirect:/login");
+        }
+        photoDAO.removePhoto(user, photoId);
+        return new ModelAndView("redirect:/users/"+user.getUserId());
     }
 
     @RequestMapping(value = "/notfound", method = RequestMethod.GET)
     public ModelAndView notFoundView(){
         return new ModelAndView("userNotFound");
+    }
+
+//    @RequestMapping(value = "/grade/{photoId}", method = RequestMethod.GET)
+//    public void getGradesByPhoto(@PathVariable String photoId) throws PhotoNotFound {
+//        photoDAO.getPhotoGrades(Long.valueOf(photoId));
+//    }
+
+    @RequestMapping(value = "/friends", method = RequestMethod.GET)
+    public ModelAndView getFriends( HttpServletResponse response, HttpSession session) throws PhotoNotFound {
+        User user = (User) session.getAttribute("USER");
+        if(user == null) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return new ModelAndView("redirect:/login");
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        List<User> friends = userDAO.getFriends(User user);
+        modelAndView.addObject("friends", friends);
+        modelAndView.setViewName("friends");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/grade/{photoId}", method = RequestMethod.GET)
+    public ModelAndView getUsersByEmail(@PathVariable String mail, HttpServletResponse response, HttpSession session) throws PhotoNotFound {
+        User user = (User) session.getAttribute("USER");
+        if(user == null) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return new ModelAndView("redirect:/login");
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        List<User> usersByEmail = userDAO.getUsersByEmail(mail);
+        modelAndView.addObject("users", usersByEmail);
+        modelAndView.setViewName("usersByEmail");
+        return modelAndView;
     }
 
 }
