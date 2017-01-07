@@ -1,12 +1,10 @@
 package pl.molasym.photoGrade.controller;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import pl.molasym.photoGrade.entities.Grade;
 import pl.molasym.photoGrade.entities.Invitation;
 import pl.molasym.photoGrade.entities.Photo;
 import pl.molasym.photoGrade.entities.User;
@@ -32,10 +30,10 @@ import java.util.List;
 public class UserPanelController {
 
     @Autowired
-    private UserService userDAO;
+    private UserService userService;
 
     @Autowired
-    private PhotoService photoDAO;
+    private PhotoService photoService;
 
     @Autowired
     private InvitationService invitationService;
@@ -75,7 +73,7 @@ public class UserPanelController {
         user.getPhotos().add(newPhoto);
         user.setPhotosQuantity(user.getPhotosQuantity()+1);
         try {
-            photoDAO.addPhotoToUser(user, newPhoto);
+            photoService.addPhotoToUser(user, newPhoto);
         } catch (UserNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return new ModelAndView("redirect:/users/notfound");
@@ -90,7 +88,7 @@ public class UserPanelController {
 
         List<Photo> photoList;
         try {
-            photoList = photoDAO.getAllPhotoFromUser(user);
+            photoList = photoService.getAllPhotoFromUser(user);
         } catch (UserNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return new ModelAndView("redirect:/users");
@@ -112,7 +110,7 @@ public class UserPanelController {
         User userToInvite;
 
         try {
-            userToInvite = userDAO.getUserByUserId(Long.valueOf(id));
+            userToInvite = userService.getUserByUserId(Long.valueOf(id));
         } catch (UserNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return new ModelAndView("redirect:/users/notfound");
@@ -130,21 +128,21 @@ public class UserPanelController {
         } catch (UserAlreadyFriends userAlreadyFriends) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ModelAndView model = new ModelAndView();
-            model.addObject("error", "Jestescie juz znajomymi");
-            model.setViewName("redirect:/users/"+userToInvite.getUserId());
+            model.addObject("error", "Already friends");
+            model.setViewName("forward:/users/"+userToInvite.getUserId());
             return model;
 
         } catch (InvitationAlreadySent invitationAlreadySent) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ModelAndView model = new ModelAndView();
-            model.addObject("error", "Zaproszenie zostalo juz wyslane");
-            model.setViewName("redirect:/users/"+userToInvite.getUserId());
+            model.addObject("error", "Invitation already sent");
+            model.setViewName("forward:/users/"+userToInvite.getUserId());
             return model;
         } catch (InvitationAlreadyAccepted invitationAlreadyAccepted) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ModelAndView model = new ModelAndView();
-            model.addObject("error", "Jestescie juz znajomymi");
-            model.setViewName("redirect:/users/"+userToInvite.getUserId());
+            model.addObject("error", "Already friends");
+            model.setViewName("forward:/users/"+userToInvite.getUserId());
             return model;
         }
         ModelAndView model = new ModelAndView();
@@ -195,7 +193,7 @@ public class UserPanelController {
 
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView showUserProfile(@PathVariable Long id, HttpServletResponse response, HttpSession session) throws PhotoNotFound {
         User user = (User) session.getAttribute("USER");
         if(user == null) {
@@ -208,7 +206,7 @@ public class UserPanelController {
 
         User userById = null;
         try {
-            userById = userDAO.getUserByUserId(id);
+            userById = userService.getUserByUserId(id);
         } catch (UserNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return new ModelAndView("redirect:/users/notfound");
@@ -216,9 +214,9 @@ public class UserPanelController {
 
         List<Photo> photoList;
         try {
-            photoList = photoDAO.getAllPhotoFromUser(userById);
+            photoList = photoService.getAllPhotoFromUser(userById);
             for(Photo photo: photoList) {
-                    photo.setCurrentUserGrade(photoDAO.getGradeByPhotoAndUser(photo, user));
+                    photo.setCurrentUserGrade(photoService.getGradeByPhotoAndUser(photo, user));
             }
         } catch (UserNotFoundException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -231,7 +229,7 @@ public class UserPanelController {
             modelAndView.addObject("photoList", photoList);
             modelAndView.addObject("relationShip", "SESSION");
         } else try {
-            if (userDAO.areFriends(user, userById)) {
+            if (userService.areFriends(user, userById)) {
                 modelAndView.addObject("user", userById);
                 modelAndView.addObject("photoList", photoList);
                 modelAndView.addObject("relationShip", "FRIEND");
@@ -239,9 +237,9 @@ public class UserPanelController {
             else{
                 List<Photo> photoListNotFriend;
                 try {
-                    photoListNotFriend = photoDAO.getPhotoFromUserByVisibility(userById, Visibility.PUBLIC);
+                    photoListNotFriend = photoService.getPhotoFromUserByVisibility(userById, Visibility.PUBLIC);
                     for(Photo photo: photoListNotFriend) {
-                        photo.setCurrentUserGrade(photoDAO.getGradeByPhotoAndUser(photo, user));
+                        photo.setCurrentUserGrade(photoService.getGradeByPhotoAndUser(photo, user));
                     }
                 } catch (UserNotFoundException e) {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -266,8 +264,8 @@ public class UserPanelController {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return new ModelAndView("redirect:/login");
         }
-        photoDAO.addPhotoGrade(user, photoId, value );
-        return new ModelAndView("redirect:/users/"+photoDAO.getPhotoById(photoId).getUser().getUserId());
+        photoService.addPhotoGrade(user, photoId, value );
+        return new ModelAndView("redirect:/users/"+ photoService.getPhotoById(photoId).getUser().getUserId());
     }
 
     @RequestMapping(value = "/{photoId}/remove", method = RequestMethod.POST)
@@ -277,7 +275,7 @@ public class UserPanelController {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return new ModelAndView("redirect:/login");
         }
-        photoDAO.removePhoto(user, photoId);
+        photoService.removePhoto(user, photoId);
         return new ModelAndView("redirect:/users/"+user.getUserId());
     }
 
@@ -288,35 +286,45 @@ public class UserPanelController {
 
 //    @RequestMapping(value = "/grade/{photoId}", method = RequestMethod.GET)
 //    public void getGradesByPhoto(@PathVariable String photoId) throws PhotoNotFound {
-//        photoDAO.getPhotoGrades(Long.valueOf(photoId));
+//        photoService.getPhotoGrades(Long.valueOf(photoId));
 //    }
 
-    @RequestMapping(value = "/friends", method = RequestMethod.GET)
-    public ModelAndView getFriends( HttpServletResponse response, HttpSession session) throws PhotoNotFound {
+    @RequestMapping(value = "{userId}/friends", method = RequestMethod.GET)
+    public ModelAndView getUserFriends(@PathVariable Long userId, HttpServletResponse response, HttpSession session) throws PhotoNotFound {
         User user = (User) session.getAttribute("USER");
         if(user == null) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return new ModelAndView("redirect:/login");
         }
         ModelAndView modelAndView = new ModelAndView();
-        List<User> friends = userDAO.getFriends(User user);
+        List<User> friends = null;
+        try {
+            friends = userService.getUserFriends(userId);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("userId", userId);
         modelAndView.addObject("friends", friends);
         modelAndView.setViewName("friends");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/grade/{photoId}", method = RequestMethod.GET)
-    public ModelAndView getUsersByEmail(@PathVariable String mail, HttpServletResponse response, HttpSession session) throws PhotoNotFound {
+    @RequestMapping(value = "search", method = RequestMethod.POST)
+    public ModelAndView getUsersByEmail(@RequestParam(value="mail", required=true) String mail, HttpServletResponse response, HttpSession session) throws PhotoNotFound {
         User user = (User) session.getAttribute("USER");
         if(user == null) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return new ModelAndView("redirect:/login");
         }
-        ModelAndView modelAndView = new ModelAndView();
-        List<User> usersByEmail = userDAO.getUsersByEmail(mail);
-        modelAndView.addObject("users", usersByEmail);
-        modelAndView.setViewName("usersByEmail");
-        return modelAndView;
-    }
+        System.out.println(mail);
+        User userByEmail = null;
+        try {
+            userByEmail = userService.getUserByEmail(mail);
+        } catch (UserNotFoundException e) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return new ModelAndView("redirect:/users/notfound");
+        }
 
+        return new ModelAndView("redirect:/users/"+userByEmail.getUserId());
+    }
 }

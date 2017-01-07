@@ -9,12 +9,9 @@ import java.util.List;
  * Created by moliq on 23.10.16.
  */
 public interface UserRepository {
-
     public User getUserByUserId(long id);
     public User validateLoginUser(String email, String password);
-    public boolean checkIfUsernameExists(String username);
     public User getUserByEmail(String mail);
     public void registerNewUser(User user);
-
-
+    public List<User> getUserFriends(User user);
 }

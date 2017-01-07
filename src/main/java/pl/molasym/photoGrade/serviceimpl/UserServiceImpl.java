@@ -9,6 +9,8 @@ import pl.molasym.photoGrade.exceptions.UserWrongCredentials;
 import pl.molasym.photoGrade.repository.UserRepository;
 import pl.molasym.photoGrade.service.UserService;
 
+import java.util.List;
+
 /**
  * Created by moliq on 24.10.16.
  */
@@ -35,10 +37,6 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    public boolean checkIfUsernameExists(String username){
-        return userDAO.checkIfUsernameExists(username);
-    }
-
     public User getUserByEmail(String mail) throws UserNotFoundException {
         User user = userDAO.getUserByEmail(mail);
         if(user == null)
@@ -57,8 +55,11 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         return userOne.getFriends().stream().anyMatch(x -> x.getUserId().equals(userTwo.getUserId()));
     }
-
-
-
+    public List<User> getUserFriends(Long userId) throws UserNotFoundException {
+        User user = userDAO.getUserByUserId(userId);
+        if(user == null)
+            throw new UserNotFoundException();
+        return userDAO.getUserFriends(user);
+    }
 }
 

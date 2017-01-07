@@ -73,7 +73,7 @@ public class LoginController {
         if(u != null)
             session.invalidate();
 
-        return "forward:/login";
+        return "redirect:/login";
     }
 
 

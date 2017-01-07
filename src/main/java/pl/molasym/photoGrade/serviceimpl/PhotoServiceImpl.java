@@ -136,11 +136,15 @@ public class PhotoServiceImpl implements PhotoService {
             return String.valueOf(value);
         }
     public void removePhoto(User user, Long photoId) throws Exception {
-        Photo founded = photoDAO.getPhotoById(Long.valueOf(photoId));
+        user.setPhotos(getAllPhotoFromUser(user));
+        Photo founded = user.getPhotos().stream().filter(x -> x.getPhotoId().equals(photoId)).findAny().get();
         if (founded == null)
             throw new PhotoNotFound();
         if(!founded.getUser().getUserId().equals(user.getUserId()))
             throw new Exception("No access");
+        user.setPhotosQuantity(user.getPhotosQuantity()-1);
+        user.getPhotos().remove(founded);
+        photoDAO.updateUser(user);
         photoDAO.removePhoto(founded);
     }
 }

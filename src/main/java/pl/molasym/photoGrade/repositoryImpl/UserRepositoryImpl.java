@@ -11,6 +11,7 @@ import pl.molasym.photoGrade.repository.UserRepository;
 import pl.molasym.photoGrade.sql.UserInformationSQL;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * Created by moliq on 23.10.16.
@@ -63,8 +64,15 @@ public class UserRepositoryImpl implements UserRepository {
         session.getTransaction().commit();
         session.close();
     }
+    public List<User> getUserFriends(User user){
+        Session session = sessionFactory.openSession();
+        List<User> friends=null;
+        session.getTransaction().begin();
+        Query query = session.createQuery(UserInformationSQL.GET_USER_FRIENDS);
+        query.setParameter("user", user);
+        friends = (List<User>) query.list();
+        session.close();
 
-    public boolean checkIfUsernameExists(String username){
-        return false;
+        return friends;
     }
 }

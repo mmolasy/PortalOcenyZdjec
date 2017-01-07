@@ -12,7 +12,7 @@
 <section>
     <div class="jumbotron">
         <div class="container">
-            <h1 class="alert alert-danger"> Brak uzytkownika o wskazanym identyfikatorze.</h1>
+            <h1 class="alert alert-danger">404. Not found</h1>
         </div>
     </div>
 </section>

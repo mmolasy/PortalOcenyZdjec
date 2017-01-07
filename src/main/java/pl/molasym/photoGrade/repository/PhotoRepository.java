@@ -23,4 +23,5 @@ public interface PhotoRepository {
     public Map<Integer,Long> getGradesByPhoto(Photo photo);
     public Integer getGradeByPhotoAndUser(Photo photo, User user);
     public void removePhoto(Photo photo);
+    public void updateUser(User user);
 }
