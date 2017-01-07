@@ -1,9 +1,15 @@
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"  %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet"	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lora&subset=latin,latin-ext' rel='stylesheet'/>
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet'/>
+    <title>LoginPage</title>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -25,6 +31,11 @@
 </head>
 <script>
 
+    function checkError(error){
+        if(error) {
+            alert(error);
+        }
+    }
     function returnZeroIfUndefined(value){
         if(value == undefined)
             return 0;
@@ -35,7 +46,7 @@
     function grade(index, gradeMap) {
 
         var data =
-                 [
+                [
                     {
                         value: returnZeroIfUndefined(gradeMap["1"]),
                         color:"#F7464A",
@@ -54,18 +65,18 @@
                         highlight: "#FFC870",
                         label: "Amount of 3 grade"
                     },
-                     {
-                         value: returnZeroIfUndefined(gradeMap["4"]),
-                         color: "#1799D1",
-                         highlight: "#44A6D0",
-                         label: "Amount of 4 grade"
-                     },
-                     {
-                         value: returnZeroIfUndefined(gradeMap["5"]),
-                         color: "#2EEC19",
-                         highlight: "#81E976",
-                         label: "Amount of 5 grade"
-                     }
+                    {
+                        value: returnZeroIfUndefined(gradeMap["4"]),
+                        color: "#1799D1",
+                        highlight: "#44A6D0",
+                        label: "Amount of 4 grade"
+                    },
+                    {
+                        value: returnZeroIfUndefined(gradeMap["5"]),
+                        color: "#2EEC19",
+                        highlight: "#81E976",
+                        label: "Amount of 5 grade"
+                    }
                 ];
 
         var option = {
@@ -98,80 +109,181 @@
     }
 
 </script>
-<body>
+<style>
+    body
+    {
+        background-color: #7C7676;
+        font-family: 'Lora', serif;
+        color:white;
+    }
+    .jumbotron{
+        position: relative;
+        padding:30px;
+        padding-right:30px;
+        margin-top:10px !important;
+        background-color: gold;
+        margin-top: 23px;
+        margin-left: 23px;
+        margin-right: 23px;
+        text-align:center;
+        margin-bottom: 0 !important;
+        height: 300px;
+    }
+    #dane
+    {
+        width:600px;
+        font-size: 60px;
+        font-family: 'Indie Flower', cursive;
+        text-align:left;
+        display:table-cell;
+        padding:10px;
+    }
+    #msg
+    {
+        width:800px;
+        font-size: 30px;
+        font-family: 'Indie Flower', cursive;
+        text-align:center;
+        display:table-cell;
+        vertical-align:middle;
+        padding:10px;
+    }
+    #czas
+    {
+        width:100px;
+        height:100px;
+        font-size: 20px;
+
+    }
+    #buttons
+    {
+        width:100px;
+        font-size: 20px;
+        text-align:left;
+    }
+    .naglowek
+    {
+        padding-left:800px;
+        float:left;
+    }
+</style>
+<script>
+    function odliczanie()
+    {
+        var dzisiaj = new Date();
+
+        var dzien = dzisiaj.getDate();
+        var miesiac = dzisiaj.getMonth()+1;
+        var rok = dzisiaj.getFullYear();
+
+        var godzina = dzisiaj.getHours();
+        var minuta = dzisiaj.getMinutes();
+        var sekunda = dzisiaj.getSeconds();
+
+        if(sekunda>=0 && sekunda<10)
+        {
+            sekunda="0"+sekunda;
+        }
+        if(minuta>=0 && minuta<10)
+        {
+            minuta="0"+minuta;
+        }
+        if(godzina>=0 && godzina<10)
+        {
+            godzina="0"+godzina;
+        }
+        document.getElementById("czas").innerHTML = dzien+"."+miesiac+"."+rok+"</br>"+godzina+":"+minuta+":"+sekunda;
+        setTimeout("odliczanie(),1000");
+    }
+</script>
+<body onload="checkError('${error}'), odliczanie()">
 <section>
     <div class="jumbotron">
-        <div class="container">
-            <h1>User id: ${user.userId} profile</h1>
-    <c:if test="${relationShip == 'NOTFRIEND'}">
-        <form method="post" action="invite/${user.userId}">
-            <td colspan="2" align="center"><input type="submit" value="Invite to friends" /></td>
-        </form>
-        ${error}
-    </c:if>
-            <c:if test="${relationShip == 'SESSION'}">
-                <a href="<c:url value="/users/addPhoto" />" class="btn btn-danger btn-mini pull-right">Dodaj nowe zdjecie</a><br/>
+        <div class="naglowek" id="dane" >
+                    <form method="post" action="/users/search">
+                        <input type="text" name="mail">
+                        <input type="submit" class="btn btn-danger btn-mini pull-left" value="Search friend by email" />
+                    </form>
+                    <h4>User id: ${user.userId}</h4>
+                    <h4>User nick: ${user.nickName}</h4>
+                    <h4>User email: ${user.email}</h4>
+                    <h4>User date of birth: ${user.birthDate}</h4>
+                    <h4>User age: ${user.age}</h4>
+                    <h4>User amount of photos: ${user.photosQuantity}</h4>
+
+        </div>
+        <div class="naglowek" id="buttons">
+            <c:if test="${relationShip == 'NOTFRIEND'}">
+                <form method="post" action="invite/${user.userId}">
+                    <td colspan="2" align="center"><input type="submit" value="Invite to friends" /></td>
+                </form>
             </c:if>
-            <a href="<c:url value="/logout" />" class="btn btn-danger btn-mini pull-right">wyloguj</a>
+            <c:if test="${relationShip == 'SESSION'}">
+                <a href="<c:url value="/users/addPhoto" />" class="btn btn-danger btn-mini pull-left">Add new photo</a>
+            </c:if>
+            <a href="<c:url value="/users/invitations" />" class="btn btn-danger btn-mini pull-left">Invitations</a>
+            <a href="<c:url value="/users/${user.userId}/friends" />" class="btn btn-danger btn-mini pull-left">Check friends of ${user.userId}</a>
+            <a href="<c:url value="/logout" />" class="btn btn-danger btn-mini pull-left">Log out</a>
+        </div>
+        <div class="naglowek" id="czas" >
         </div>
     </div>
-
 </section>
 <section class="container">
     <c:forEach items="${photoList}" var="photo" varStatus="loop">
-    <div class="row">
-        <div class="col-md-5">
-            <img src="<c:url value="/data/${photo.user.userId}/photos/${photo.photoId}"></c:url>" alt="image"  style = "width:100%"/>
-        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <img src="<c:url value="/data/${photo.user.userId}/photos/${photo.photoId}"></c:url>" alt="image"  style = "width:100%"/>
+            </div>
 
-        <div class="col-md-5">
-            <p>
-                <strong>Id zdjecia: </strong><span class="label label-warning">${photo.photoId}</span>
-            </p>
-            <p>
-                <strong>Opis</strong>:  ${photo.description}
-            </p>
-            <p>
-                <strong>Ocena</strong>: <div id="grade${loop.index}"></div>
-            </p>
-                ${photo.transformedGrades}
-            <script>
-                var result = calculateGrade(${photo.transformedGrades});
-                if(isNaN(result)){
-                    document.getElementById("grade${loop.index}").innerHTML="No grades yet";
-                }else{
-                    document.getElementById("grade${loop.index}").innerHTML=Round(calculateGrade(${photo.transformedGrades}),2);
-                }
-            </script>
-            <p>
-                <strong>Data dodania</strong>: ${photo.createdDate}
-            </p>
-            <p>
-                <strong>Widocznosc zdjecia</strong>: ${photo.visibility}
-            </p>
-            <canvas id="myChart${loop.index}"></canvas>
-            <script>grade(${loop.index},${photo.transformedGrades}); </script>
-            <form action="demo_form.asp">
-                <select class="selectpicker show-tick" id="selectBox${loop.index}" onchange="sendGrade(${photo.photoId}, ${loop.index});">
-                    <option id="0${loop.index}">NoRate</option>
-                    <option id="1${loop.index}">One</option>
-                    <option id="2${loop.index}">Two</option>
-                    <option id="3${loop.index}">Three</option>
-                    <option id="4${loop.index}">Four</option>
-                    <option id="5${loop.index}">Five</option>
-                </select>
+            <div class="col-md-5">
+                <c:if test="${relationShip == 'SESSION'}">
+                    <form name="removePhoto" method="post" action="/users/${photo.photoId}/remove">
+                        <td colspan="3" align="left"><input type="submit" class="btn btn-danger btn-mini pull-left" value="Remove photo"/>
+                    </form>
+                </c:if>
+                </br>
+                <p>
+                    <strong>Photo id: </strong><span class="label label-warning">${photo.photoId}</span>
+                </p>
+                <p>
+                    <strong>Description</strong>:  ${photo.description}
+                </p>
+                <p>
+                    <strong>Grade</strong>: <div id="grade${loop.index}"></div>
+                </p>
                 <script>
-                    document.getElementById("selectBox${loop.index}").options.namedItem("${photo.currentUserGrade}${loop.index}").selected=true;
+                    var result = calculateGrade(${photo.transformedGrades});
+                    if(isNaN(result)){
+                        document.getElementById("grade${loop.index}").innerHTML="No grades yet";
+                    }else{
+                        document.getElementById("grade${loop.index}").innerHTML=Round(calculateGrade(${photo.transformedGrades}),2);
+                    }
                 </script>
-            </form>
-            <c:if test="${relationShip == 'SESSION'}">
-                <form name="removePhoto" method="post" action="/users/${photo.photoId}/remove">
-                    <td colspan="3" align="center"><input type="submit" value="Remove photo"/></td>
+                <p>
+                    <strong>Add date</strong>: ${photo.createdDate}
+                </p>
+                <p>
+                    <strong>Visibility</strong>: ${photo.visibility}
+                </p>
+                <canvas id="myChart${loop.index}"></canvas>
+                <script>grade(${loop.index},${photo.transformedGrades}); </script>
+                <form action="demo_form.asp">
+                    <select class="selectpicker show-tick" id="selectBox${loop.index}" onchange="sendGrade(${photo.photoId}, ${loop.index});">
+                        <option id="0${loop.index}">NoRate</option>
+                        <option id="1${loop.index}">One</option>
+                        <option id="2${loop.index}">Two</option>
+                        <option id="3${loop.index}">Three</option>
+                        <option id="4${loop.index}">Four</option>
+                        <option id="5${loop.index}">Five</option>
+                    </select>
+                    <script>
+                        document.getElementById("selectBox${loop.index}").options.namedItem("${photo.currentUserGrade}${loop.index}").selected=true;
+                    </script>
                 </form>
-            </c:if>
+            </div>
         </div>
-    </div>
-        </c:forEach>
+    </c:forEach>
 
 </section>
 </body>

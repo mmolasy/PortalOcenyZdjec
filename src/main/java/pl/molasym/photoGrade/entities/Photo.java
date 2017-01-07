@@ -154,6 +154,10 @@ public class Photo {
         if (!Arrays.equals(image, photo.image)) return false;
         if (imageName != null ? !imageName.equals(photo.imageName) : photo.imageName != null) return false;
         if (grades != null ? !grades.equals(photo.grades) : photo.grades != null) return false;
+        if (transformedGrades != null ? !transformedGrades.equals(photo.transformedGrades) : photo.transformedGrades != null)
+            return false;
+        if (currentUserGrade != null ? !currentUserGrade.equals(photo.currentUserGrade) : photo.currentUserGrade != null)
+            return false;
         if (createdDate != null ? !createdDate.equals(photo.createdDate) : photo.createdDate != null) return false;
         return visibility != null ? visibility.equals(photo.visibility) : photo.visibility == null;
 
@@ -171,6 +175,8 @@ public class Photo {
         temp = Double.doubleToLongBits(grade);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (grades != null ? grades.hashCode() : 0);
+        result = 31 * result + (transformedGrades != null ? transformedGrades.hashCode() : 0);
+        result = 31 * result + (currentUserGrade != null ? currentUserGrade.hashCode() : 0);
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
         result = 31 * result + (visibility != null ? visibility.hashCode() : 0);
         return result;

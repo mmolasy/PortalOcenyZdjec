@@ -34,7 +34,6 @@ public class PhotoRepositoryImpl implements PhotoRepository {
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
         session.save(photo);
-        session.update(user);
         session.getTransaction().commit();
         session.close();
     }
@@ -94,7 +93,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
 
     public void removePhotoGrade(Photo photo, Grade newGrade){
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery(GradeSQL.removeGradeByPhotoAndUser);
+        Query query = session.createQuery(GradeSQL.REMOVE_GRADE_BY_PHOTO_AND_USER);
         query.setParameter("photoo", photo);
         query.setParameter("userr", newGrade.getUser());
         session.getTransaction().begin();
@@ -104,7 +103,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
     public Map<Integer, Long> getGradesByPhoto(Photo photo){
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery(GradeSQL.getGradesByPhotoId);
+        Query query = session.createQuery(GradeSQL.GET_GRADES_BY_PHOTO_ID);
         query.setParameter("photoo", photo);
 
         List<List<Object>> permission= query.setResultTransformer(Transformers.TO_LIST).list();
@@ -118,7 +117,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     public Integer getGradeByPhotoAndUser(Photo photo, User user){
         Integer result=null;
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery(GradeSQL.getGradeByPhotoAndUser);
+        Query query = session.createQuery(GradeSQL.GET_GRADE_BY_PHOTO_AND_USER);
         query.setParameter("photoo", photo);
         query.setParameter("userr", user);
         result = (Integer) query.uniqueResult();
@@ -132,7 +131,11 @@ public class PhotoRepositoryImpl implements PhotoRepository {
         session.getTransaction().commit();
         session.close();
     }
-
-
-
+    public void updateUser(User user){
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+        session.update(user);
+        session.getTransaction().commit();
+        session.close();
+    }
 }
