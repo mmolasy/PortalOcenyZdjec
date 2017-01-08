@@ -2,6 +2,7 @@ package pl.molasym.photoGrade.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -222,7 +223,7 @@ public class UserPanelController {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return new ModelAndView("redirect:/users");
         }
-
+        userById.setPhotosQuantity(photoList.size());
         if(userById.getUserId().equals(user.getUserId()))
         {
             modelAndView.addObject("user", userById);
@@ -245,6 +246,7 @@ public class UserPanelController {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     return new ModelAndView("redirect:/users");
                 }
+                userById.setPhotosQuantity(photoListNotFriend.size());
                 modelAndView.addObject("user", userById);
                 modelAndView.addObject("photoList", photoListNotFriend);
                 modelAndView.addObject("relationShip", "NOTFRIEND");
@@ -335,5 +337,9 @@ public class UserPanelController {
             return new ModelAndView("redirect:/login");
         }
         return new ModelAndView("redirect:/users/"+user.getUserId());
+    }
+    @RequestMapping(value="**",method = RequestMethod.GET)
+    public ModelAndView getAnythingelse() {
+        return new ModelAndView("userNotFound");
     }
 }

@@ -38,6 +38,10 @@ public class LoginController {
         }
         return modelAndView;
     }
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
+    public String redirectToLogin() {
+        return "redirect:/login";
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView doLogin(HttpSession session, @ModelAttribute(value = "loginDto") @Valid UserLoginDTO loginDto, BindingResult result){
