@@ -9,7 +9,7 @@
     <link rel="stylesheet"	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Lora&subset=latin,latin-ext' rel='stylesheet'/>
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet'/>
-    <title>LoginPage</title>
+    <title>See friends</title>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -187,6 +187,14 @@
         {
             godzina="0"+godzina;
         }
+        if(dzien>=0 && dzien<10)
+        {
+            dzien="0"+dzien;
+        }
+        if(miesiac>=0 && miesiac<10)
+        {
+            miesiac="0"+miesiac;
+        }
         document.getElementById("czas").innerHTML = dzien+"."+miesiac+"."+rok+"</br>"+godzina+":"+minuta+":"+sekunda;
         setTimeout("odliczanie(),1000");
     }
@@ -203,11 +211,12 @@
 
         </div>
         <div class="naglowek" id="buttons">
+            <a href="<c:url value="/users/me" />" class="btn btn-primary pull-left">Show my profile</a>
             <c:if test="${relationShip == 'SESSION'}">
-                <a href="<c:url value="/users/addPhoto" />" class="btn btn-danger btn-mini pull-left">Add new photo</a>
+                <a href="<c:url value="/users/addPhoto" />" class="btn btn-danger pull-left">Add new photo</a>
             </c:if>
-            <a href="<c:url value="/users/invitations" />" class="btn btn-danger btn-mini pull-left">Invitations</a>
-            <a href="<c:url value="/logout" />" class="btn btn-danger btn-mini pull-left">Log out</a>
+            <a href="<c:url value="/users/invitations" />" class="btn btn-danger pull-left">Invitations</a>
+            <a href="<c:url value="/logout" />" class="btn btn-danger pull-left">Log out</a>
         </div>
         <div class="naglowek" id="czas" >
         </div>

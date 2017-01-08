@@ -9,7 +9,7 @@
     <link rel="stylesheet"	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Lora&subset=latin,latin-ext' rel='stylesheet'/>
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet'/>
-    <title>LoginPage</title>
+    <title>Login to Fortagram</title>
 </head>
 <style>
     body
@@ -95,6 +95,14 @@
         if(godzina>=0 && godzina<10)
         {
             godzina="0"+godzina;
+        }
+        if(dzien>=0 && dzien<10)
+        {
+            dzien="0"+dzien;
+        }
+        if(miesiac>=0 && miesiac<10)
+        {
+            miesiac="0"+miesiac;
         }
         document.getElementById("czas").innerHTML = dzien+"."+miesiac+"."+rok+"<br>"+godzina+":"+minuta+":"+sekunda;
         setTimeout("odliczanie(),1000");

@@ -9,7 +9,7 @@
     <link rel="stylesheet"	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Lora&subset=latin,latin-ext' rel='stylesheet'/>
     <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet'/>
-    <title>LoginPage</title>
+    <title>User profile</title>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -166,6 +166,10 @@
         padding-left:800px;
         float:left;
     }
+    .optionn{
+        padding-top: 30px;
+        text-align: center;
+    }
 </style>
 <script>
     function odliczanie()
@@ -192,6 +196,14 @@
         {
             godzina="0"+godzina;
         }
+        if(dzien>=0 && dzien<10)
+        {
+            dzien="0"+dzien;
+        }
+        if(miesiac>=0 && miesiac<10)
+        {
+            miesiac="0"+miesiac;
+        }
         document.getElementById("czas").innerHTML = dzien+"."+miesiac+"."+rok+"</br>"+godzina+":"+minuta+":"+sekunda;
         setTimeout("odliczanie(),1000");
     }
@@ -215,28 +227,30 @@
         <div class="naglowek" id="buttons">
             <c:if test="${relationShip == 'NOTFRIEND'}">
                 <form method="post" action="invite/${user.userId}">
-                    <td colspan="2" align="center"><input type="submit" value="Invite to friends" /></td>
+                    <td colspan="2" align="center"><input type="submit" class="btn btn-primary btn-mini pull-left" value="Invite to friends" /></td>
                 </form>
             </c:if>
+            <a href="<c:url value="/users/me" />" class="btn btn-primary pull-left">Show my profile</a>
             <c:if test="${relationShip == 'SESSION'}">
-                <a href="<c:url value="/users/addPhoto" />" class="btn btn-danger btn-mini pull-left">Add new photo</a>
+                <a href="<c:url value="/users/addPhoto" />" class="btn btn-danger pull-left">Add new photo</a>
             </c:if>
-            <a href="<c:url value="/users/invitations" />" class="btn btn-danger btn-mini pull-left">Invitations</a>
-            <a href="<c:url value="/users/${user.userId}/friends" />" class="btn btn-danger btn-mini pull-left">Check friends of ${user.userId}</a>
-            <a href="<c:url value="/logout" />" class="btn btn-danger btn-mini pull-left">Log out</a>
+            <a href="<c:url value="/users/invitations" />" class="btn btn-danger pull-left">Invitations</a>
+            <a href="<c:url value="/users/${user.userId}/friends" />" class="btn btn-danger pull-left">Check friends of ${user.userId}</a>
+            <a href="<c:url value="/logout" />" class="btn btn-danger pull-left">Log out</a>
         </div>
         <div class="naglowek" id="czas" >
         </div>
     </div>
 </section>
 <section class="container">
+    <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
     <c:forEach items="${photoList}" var="photo" varStatus="loop">
         <div class="row">
             <div class="col-md-5">
                 <img src="<c:url value="/data/${photo.user.userId}/photos/${photo.photoId}"></c:url>" alt="image"  style = "width:100%"/>
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <c:if test="${relationShip == 'SESSION'}">
                     <form name="removePhoto" method="post" action="/users/${photo.photoId}/remove">
                         <td colspan="3" align="left"><input type="submit" class="btn btn-danger btn-mini pull-left" value="Remove photo"/>
@@ -266,9 +280,13 @@
                 <p>
                     <strong>Visibility</strong>: ${photo.visibility}
                 </p>
-                <canvas id="myChart${loop.index}"></canvas>
+            </div>
+            <div class="col-md-4">
+
+            <canvas id="myChart${loop.index}"></canvas>
                 <script>grade(${loop.index},${photo.transformedGrades}); </script>
                 <form action="demo_form.asp">
+                    <div class="optionn">
                     <select class="selectpicker show-tick" id="selectBox${loop.index}" onchange="sendGrade(${photo.photoId}, ${loop.index});">
                         <option id="0${loop.index}">NoRate</option>
                         <option id="1${loop.index}">One</option>
@@ -280,9 +298,11 @@
                     <script>
                         document.getElementById("selectBox${loop.index}").options.namedItem("${photo.currentUserGrade}${loop.index}").selected=true;
                     </script>
+                    </div>
                 </form>
             </div>
         </div>
+        <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
     </c:forEach>
 
 </section>

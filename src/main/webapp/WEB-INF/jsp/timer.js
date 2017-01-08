@@ -39,6 +39,14 @@
 				{
 					godzina="0"+godzina;
 				}
+				if(dzien>=0 && dzien<10)
+				{
+					dzien="0"+dzien;
+				}
+				if(miesiac>=0 && miesiac<10)
+				{
+					miesiac="0"+miesiac;
+				}
 			document.getElementById("czas").innerHTML = dzien+"."+miesiac+"."+rok+"<br>"+godzina+":"+minuta+":"+sekunda;
 			setTimeout("odliczanie(),1000");
 			}

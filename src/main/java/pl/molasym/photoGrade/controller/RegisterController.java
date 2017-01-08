@@ -1,5 +1,6 @@
 package pl.molasym.photoGrade.controller;
 
+import org.hibernate.mapping.SimpleAuxiliaryDatabaseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -7,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import pl.molasym.photoGrade.dto.UserLoginDTO;
 import pl.molasym.photoGrade.entities.User;
@@ -18,7 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by moliq on 23.10.16.
@@ -46,7 +50,7 @@ public class RegisterController {
 
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ModelAndView sentRegisterFormular(@ModelAttribute("newUser") @Valid User newUser, BindingResult result, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UserException {
+    public ModelAndView sentRegisterFormular(@ModelAttribute("newUser") @Valid User newUser, @RequestParam String date, BindingResult result, HttpSession session, HttpServletRequest request, HttpServletResponse response) throws UserException {
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -54,7 +58,13 @@ public class RegisterController {
         User user = new User();
         user.setNickName(newUser.getNickName());
         user.setPassword(newUser.getPassword());
-        user.setBirthDate(newUser.getBirthDate());
+        Date birthDate=null;
+        try {
+            birthDate = new SimpleDateFormat("yyyy-mm-dd").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        user.setBirthDate(birthDate);
         user.setEmail(newUser.getEmail());
         user.setCreatedDate(new Date());
 

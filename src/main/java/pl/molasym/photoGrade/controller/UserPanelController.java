@@ -327,4 +327,13 @@ public class UserPanelController {
 
         return new ModelAndView("redirect:/users/"+userByEmail.getUserId());
     }
+    @RequestMapping(value = "me", method = RequestMethod.GET)
+    public ModelAndView getMyProfile(HttpServletResponse response, HttpSession session) {
+        User user = (User) session.getAttribute("USER");
+        if(user == null) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return new ModelAndView("redirect:/login");
+        }
+        return new ModelAndView("redirect:/users/"+user.getUserId());
+    }
 }
