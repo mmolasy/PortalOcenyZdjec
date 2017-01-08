@@ -148,7 +148,6 @@
         width:100px;
         height:100px;
         font-size: 20px;
-
     }
     #buttons
     {
@@ -160,6 +159,26 @@
     {
         padding-left:800px;
         float:left;
+    }
+    .friends
+    {
+    }
+    #friend
+    {
+        width:600px;
+        font-size: 60px;
+        font-family: 'Indie Flower', cursive;
+        text-align:left;
+        display: inline-block;
+        padding:10px;
+    }
+    #buttonn
+    {
+        width:1000px;
+        font-size: 20px;
+        display: inline-block;
+        text-align: right;
+        padding-left: 10px;
     }
 </style>
 <script>
@@ -223,9 +242,25 @@
     </div>
 </section>
 <section class="container">
-        <c:forEach items="${friends}" var="friend">
-            <a href="<c:url value="/users/${friend.userId}" />" class="btn btn-danger btn-big">User id: ${friend.userId} - mail: ${friend.email} - amount of photos ${friend.photosQuantity}</a></br>
-        </c:forEach>
+    <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+    <c:forEach items="${friends}" var="user">
+        <div class="col-sm-6 col-md-12" style="padding-bottom: 30px">
+            <div class="thumbnail" style="background-color: lightgrey">
+                <div class="caption">
+                    <div class="friends" id="friend" >
+                        <h4>User nick: ${user.nickName}</h4>
+                        <h4>User email: ${user.email}</h4>
+                        <h4>User age: ${user.age}</h4>
+                    </div>
+                    <div class="friends" id="buttonn" >
+                        <a href="<c:url value="/users/${user.userId}" />" class="btn btn-primary pull-right">Show friend profile</a>
+                    </div>
+                    <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+                </div>
+            </div>
+        </div>
+        <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+    </c:forEach>
 </section>
 </body>
 </html>

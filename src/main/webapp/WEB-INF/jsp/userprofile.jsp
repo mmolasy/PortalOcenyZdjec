@@ -227,7 +227,7 @@
         <div class="naglowek" id="buttons">
             <c:if test="${relationShip == 'NOTFRIEND'}">
                 <form method="post" action="invite/${user.userId}">
-                    <td colspan="2" align="center"><input type="submit" class="btn btn-primary btn-mini pull-left" value="Invite to friends" /></td>
+                    <td colspan="2" align="center"><input type="submit" class="btn btn-success pull-left" value="Invite to friends" /></td>
                 </form>
             </c:if>
             <a href="<c:url value="/users/me" />" class="btn btn-primary pull-left">Show my profile</a>
@@ -235,7 +235,7 @@
                 <a href="<c:url value="/users/addPhoto" />" class="btn btn-danger pull-left">Add new photo</a>
             </c:if>
             <a href="<c:url value="/users/invitations" />" class="btn btn-danger pull-left">Invitations</a>
-            <a href="<c:url value="/users/${user.userId}/friends" />" class="btn btn-danger pull-left">Check friends of ${user.userId}</a>
+            <a href="<c:url value="/users/${user.userId}/friends" />" class="btn btn-danger pull-left">Check friends of ${user.nickName}</a>
             <a href="<c:url value="/logout" />" class="btn btn-danger pull-left">Log out</a>
         </div>
         <div class="naglowek" id="czas" >

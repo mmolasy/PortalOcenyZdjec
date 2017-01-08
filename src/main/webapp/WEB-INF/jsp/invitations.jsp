@@ -156,6 +156,10 @@
         font-size: 20px;
         text-align:left;
     }
+    #przerwa
+    {
+        height: 20px;
+    }
     .naglowek
     {
         padding-left:800px;
@@ -224,26 +228,21 @@
 </section>
 <section class="container">
     <div class="row">
+        <div id="przerwa"></div>
         <c:forEach items="${invitations}" var="invitation">
-            <div class="col-sm-6 col-md-3" style="padding-bottom: 30px">
+            <div class="col-sm-6 col-md-12" style="padding-bottom: 10px">
                 <div class="thumbnail">
                     <div class="caption">
                         <h3>Invitation from ${invitation.from.email}</h3>
                         <p>Invitation id ${invitation.id}</p>
-                        <p>
-                        <div class="col-lg-offset-2 col-lg-50">
+                        <form method="post" action="acceptInvitation/${invitation.id}">
                             <a
                                     href=" <spring:url value="/users/${invitation.from.userId}" /> "
                                     class="btn btn-primary"> <span
                                     class="glyphicon-info-sign glyphicon" /></span> See profile
                             </a>
-                        </div>
-
-                        <form method="post" action="acceptInvitation/${invitation.id}">
                             <div class="form-group">
-                                <div class="col-lg-offset-2 col-lg-50">
-                                    <input type="submit" userId="btnLogin" class="btn btn-primary" value ="Accept invitation"/>
-                                </div>
+                                    <input type="submit" userId="btnLogin" class="btn btn-primary pull-right" value ="Accept invitation"/>
                             </div>
                         </form>
                         </p>
